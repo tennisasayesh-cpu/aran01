@@ -19,8 +19,8 @@ export async function updateSession(request: NextRequest) {
             options: CookieOptions;
           }[]
         ) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            request.cookies.set(name, value, options)
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value)
           );
           response = NextResponse.next({ request });
           cookiesToSet.forEach(({ name, value, options }) =>
@@ -31,12 +31,12 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  // این بخش را مطابق منطق فعلی پروژه‌ات نگه دار
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // ... منطق ریدایرکت/احراز هویت خودت ...
+  // منطق احراز هویت خودت را اینجا نگه دار
+  // مثلاً: if (!user && !request.nextUrl.pathname.startsWith("/login")) { ... }
 
   return response;
 }
